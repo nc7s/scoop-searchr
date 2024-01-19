@@ -3,7 +3,7 @@ name = 'scoop-searchr'
 description = 'Alternative scoop search'
 version = '0.1.0'
 edition = '2021'
-author = ['Blair Noctis <n@sail.ng>']
+authors = ['Blair Noctis <n@sail.ng>']
 repository = 'https://github.com/nc7s/scoop-searchr'
 license = 'BSD-3-Clause'
 
