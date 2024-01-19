@@ -12,6 +12,8 @@ jobs:
     runs-on: windows-latest
     env:
       CARGO_TERM_COLOR: always
+    permissions:
+      contents: write
 
     steps:
     - name: Set up Rust toolchain
