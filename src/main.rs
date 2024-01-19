@@ -30,6 +30,7 @@ enum ManifestBinField {
 struct Manifest {
 	version: String,
 	bin: Option<ManifestBinField>,
+	description: Option<String>,
 }
 
 fn scoop_home() -> Result<PathBuf> {
@@ -66,6 +67,7 @@ struct FindEntry {
 	name: String,
 	version: String,
 	bin: Option<PathBuf>,
+	description: Option<String>,
 }
 
 fn find_manifests(base: &Path, term: &str) -> Result<Vec<FindEntry>> {
@@ -107,6 +109,7 @@ fn find_manifests(base: &Path, term: &str) -> Result<Vec<FindEntry>> {
 				name,
 				version: manifest.version,
 				bin: None,
+				description: None,
 			});
 			continue
 		}
@@ -132,8 +135,21 @@ fn find_manifests(base: &Path, term: &str) -> Result<Vec<FindEntry>> {
 					name,
 					version: manifest.version,
 					bin: Some(bin_path),
+					description: None,
 				});
 				continue
+			}
+		}
+
+		if let Some(description) = manifest.description {
+			dbg!(&name, &description);
+			if description.to_lowercase().contains(&term) {
+				results.push(FindEntry {
+					name,
+					version: manifest.version,
+					bin: None,
+					description: Some(description),
+				})
 			}
 		}
 	}
@@ -188,9 +204,11 @@ fn main() -> Result<()> {
 		found = true;
 
 		println!("'{bucket}' bucket:");
-		for FindEntry { name, version, bin } in entries {
-			println!("	{name} ({version}) {}", if let Some(bin) = bin {
-				format!("--> includes '{}'", bin.to_string_lossy())
+		for FindEntry { name, version, bin, description } in entries {
+			println!("	{name} ({version}){}{}", if let Some(bin) = bin {
+				format!(" --> includes '{bin:?}'")
+			} else { "".to_string() }, if let Some(description) = description {
+				format!(": {description}")
 			} else { "".to_string() });
 		}
 		println!();
@@ -199,6 +217,7 @@ fn main() -> Result<()> {
 	if found {
 		Ok(())
 	} else {
-		bail!("No match found")
+		println!("No match found");
+		std::process::exit(1)
 	}
 }
