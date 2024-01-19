@@ -196,9 +196,9 @@ fn main() -> Result<()> {
 		println!();
 	}
 
-	if !found {
-		println!("No match found");
+	if found {
+		Ok(())
+	} else {
+		bail!("No match found")
 	}
-
-	Ok(())
 }
