@@ -1,0 +1,19 @@
+= scoop-searchr
+
+https://crates.io/crates/scoop-searchr[image:https://img.shields.io/crates/v/scoop-searchr[Crates.io Version]]
+
+Rust clone of https://github.com/shilangyu/scoop-search[scoop-search]. Slightly
+slower than it, but still faster than the original.
+
+.Install
+----
+scoop install scoop-searchr # DEMO ONLY, NOT YET added to buckets
+----
+
+Likewise, install the hook in `$PROFILE`:
+
+----
+Invoke-Expression (&scoop-searchr --hook)
+----
+
+Note the `r`.
