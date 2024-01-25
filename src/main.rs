@@ -142,7 +142,6 @@ fn find_manifests(base: &Path, term: &str) -> Result<Vec<FindEntry>> {
 		}
 
 		if let Some(description) = manifest.description {
-			dbg!(&name, &description);
 			if description.to_lowercase().contains(&term) {
 				results.push(FindEntry {
 					name,
